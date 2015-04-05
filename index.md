@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Data management in the ocean, weather and climate sciences
+title: Data Management in the Ocean, Weather, and Climate Sciences
 ---
 
 Our previous lessons have shown us how to write programs that ingest a list of data files,
@@ -37,6 +37,13 @@ Along the way, we will learn:
 
 ## Topics
 
-1.  [Data management](01-data-management.html)
-2.  [Data processing](02-data-processing.html)
-3.  [Data provenance](03-data-provenance.html) 
+1.  [Data Management](01-data-management.html)
+2.  [Data Processing](02-data-processing.html)
+3.  [Data Provenance](03-data-provenance.html) 
+
+## Other Resources
+
+*   [Motivation](motivation.html)
+*   [Reference](reference.html)
+*   [Discussion](discussion.html)
+*   [Instructor's Guide](instructors.html)

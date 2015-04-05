@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Data management in the ocean, weather and climate sciences
-subtitle: Data provenance
+title: Data Management in the Ocean, Weather, and Climate Sciences
+subtitle: Data Provenance
 minutes: 20
 ---
 > ## Learning Objectives {.objectives}
