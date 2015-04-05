@@ -31,7 +31,8 @@ Along the way, we will learn:
 > It is assumed that learners will have completed the core Software Carpentry
 > lessons on the Unix Shell, Python and Git before tackling this lesson.
 >
-> The following additional Python libraries must also be installed to complete the lesson:
+> The following additional Python libraries must also be installed to complete the lesson:  
+>
 > * `pip install gitpython`
 
 ## Topics
@@ -39,10 +40,3 @@ Along the way, we will learn:
 1.  [Data Management](01-data-management.html)
 2.  [Data Processing](02-data-processing.html)
 3.  [Data provenance](03-data-provenance.html) 
-
-## Other Resources
-
-*   [Motivation](motivation.html)
-*   [Reference](reference.html)
-*   [Discussion](discussion.html)
-*   [Instructor's Guide](instructors.html)

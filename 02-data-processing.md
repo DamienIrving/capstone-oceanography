@@ -227,7 +227,7 @@ print times[0:10]
 > They could also have defined the units as `weeks since 1-01-01 00:00:00` or `milliseconds after 1979-12-31`. 
 > Obviously what is needed is a standard method for defining netCDF attributes, 
 > and that’s where the [Climate and Forecast (CF) metadata convention](http://cf-pcmdi.llnl.gov/) comes in.
-
+>
 > The CF metadata standard was first defined back in the early 2000s and has now been adopted by all the major institutions and projects in the weather/climate sciences. 
 > There's a nice [blog post](http://drclimate.wordpress.com/2014/06/09/are-you-cf-compliant/) on the topic if you'd like more information, 
 > but for the most part you just need to be aware that if a tool like CDO isn't working, 
@@ -327,9 +327,11 @@ show()
 > The easiest way to install Iris and Cartopy is to use the [conda](http://www.continuum.io/blog/conda) package installer that comes with Anaconda. 
 > Simply search the [Binstar](https://binstar.org/) website for an installer that matches your operating system. 
 > You'll end up typing something like the following at the command line:  
+>  
 > ~~~ 
 > conda install -c https://conda.binstar.org/scitools cartopy
 > ~~~
+>
 > What if you want to view the contents of a netCDF file quickly, 
 > rather than go to the effort of producing something that is publication quality?
 > There are numerous tools out there for doing this, 

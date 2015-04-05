@@ -5,7 +5,8 @@ subtitle: Data provenance
 minutes: 20
 ---
 > ## Learning Objectives {.objectives}
-> *
+> * Record data processing steps in the history attribute of netCDF files
+> * Include this provenance tracking in a personal data management plan
 
 Now that we've developed some code 
 for reading in zonal and meridional surface current data and calculating the speed, 
