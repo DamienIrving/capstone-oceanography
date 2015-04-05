@@ -228,7 +228,7 @@ author:
     main(args)</code></pre>
 <div id="conserving-metadata" class="callout panel panel-info">
 <div class="panel-heading">
-<h3><span class="glyphicon glyphicon-pushpin"></span>Conserving metadata</h3>
+<h2><span class="glyphicon glyphicon-pushpin"></span>Conserving metadata</h2>
 </div>
 <div class="panel-body">
 <p>It took four separate functions in <code>calc_current_speed.py</code> to create the output file, because we had to copy the dimensions and most of the global and variable attributes from the original file to the new file. This is such a common problem that a suite of Python libraries known collectively as the <a href="http://www2-pcmdi.llnl.gov/cdat">Climate Data Analysis Tools</a> (CDAT) have been developed, which conserve metadata. When the <code>cdms2</code> CDAT library is used to read a netCDF file, the data are stored as &quot;cdms2 transient variables&quot; (as opposed to numpy arrays). These special variables carry their dimension information and variable atributes with them, and if you perform a mathematical operation on two or more cdms2 transient variables with matching dimensions (such as multiply the zonal and meridional surface current speed), the dimensions and attributes will be transferred to the new variable automatically. With no copying required, the task of writing an output file is typically reduced to only 5-10 lines of code.</p>

@@ -37,6 +37,6 @@ Along the way, we will learn:
 
 ## Topics
 
-1.  [Data Management](01-data-management.html)
-2.  [Data Processing](02-data-processing.html)
+1.  [Data management](01-data-management.html)
+2.  [Data processing](02-data-processing.html)
 3.  [Data provenance](03-data-provenance.html) 
