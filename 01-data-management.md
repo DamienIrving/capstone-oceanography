@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Data management in the ocean, weather and climate sciences
-subtitle: Data management
+title: Data Management in the Ocean, Weather, and Climate Sciences
+subtitle: Data Management
 minutes: 20
 ---
 > ## Learning Objectives {.objectives}
