@@ -287,26 +287,31 @@ author:
     main(args)
 ~~~
 
-> ## Conserving metadata {.callout}
+> ## Introducing xray {.callout}
 >
-> It took four separate functions in `calc_current_speed.py` to create the output file, 
-> because we had to copy the dimensions and most of the global and variable attributes from the original file to the new file. 
-> This is such a common problem that a suite of Python libraries known collectively as the [Climate Data Analysis Tools](http://www2-pcmdi.llnl.gov/cdat) (CDAT) have been developed, which conserve metadata. 
-> When the `cdms2` CDAT library is used to read a netCDF file, 
-> the data are stored as "cdms2 transient variables" (as opposed to numpy arrays).
-> These special variables carry their dimension information and variable atributes with them, 
-> and if you perform a mathematical operation on two or more cdms2 transient variables with matching dimensions 
-> (such as multiply the zonal and meridional surface current speed), 
-> the dimensions and attributes will be transferred to the new variable automatically. 
-> With no copying required, the task of writing an output file is typically reduced to only 5-10 lines of code.   
+> It took four separate functions in `calc_current_speed.py` to create the output file,
+> because we had to copy the dimensions 
+> and most of the global and variable attributes 
+> from the original file to the new file. 
+> This is such a common problem that a Python library called 
+> [xray](http://xray.readthedocs.org/en/stable/) has been developed, 
+> which conserves metadata whenever possible. 
+> When xray is used to read a netCDF file, 
+> the data are stored as an `xray.DataArray` (as opposed to a `numpy.ndarray`).
+> These special data arrays carry their dimension information and variable atributes with them, 
+> which means you don't have to retrieve them manually. 
+> xray also comes with a bunch of convenience functions 
+> for doing typical weather/climate/ocean tasks (calculating climatologies, anomalies, etc),
+> which can be a pain using numpy. 
 >
-> If you'd like to learn more about using the CDAT libraries, 
-> see [this post](http://drclimate.wordpress.com/2014/01/02/a-beginners-guide-to-scripting-with-uv-cdat/) and 
-> the [UV-CDAT website](http://uvcdat.llnl.gov/). 
 > Similar to Iris and Cartopy, 
-> the easiest way to get access to the CDAT libraries is to install `cdat-lite` via the conda package installer 
-> ([search the Binstar website for cdat-lite](https://binstar.org/search?q=cdat-lite)) 
-> or the Python package installer (see [here](https://pypi.python.org/pypi/cdat-lite/6.0rc2)).
+> the easiest way to install xray is with the conda package installer. 
+> Simply type the following at the command line:  
+>
+> ~~~
+> conda install xray dask netCDF4 bottleneck
+> ~~~
+>
 
 Using the help information that the `argparse` library provides, 
 we can now go ahead and run this script:

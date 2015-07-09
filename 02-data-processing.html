@@ -235,14 +235,14 @@ show()</code></pre>
 <div class="figure">
 <img src="fig/surface_current.svg" alt="Figure: surface current" /><p class="caption">Figure: surface current</p>
 </div>
-<div id="plotting-option" class="callout panel panel-info">
+<div id="plotting-options" class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pushpin"></span>Plotting option</h2>
+<h2><span class="glyphicon glyphicon-pushpin"></span>Plotting options</h2>
 </div>
 <div class="panel-body">
 <p>Quite a few lines of code were required to create our publication quality figure using <a href="http://matplotlib.org/">matplotlib</a>, and there would have been even more had we wanted to use the <a href="http://matplotlib.org/basemap/">basemap</a> library to plot coastlines or change the map projection. Recognising this burden, the team at the UK Met Office have developed <a href="http://scitools.org.uk/iris/">Iris</a> and <a href="http://scitools.org.uk/cartopy/">Cartopy</a>, which build on matplotlib and basemap to provide a more convenient interface (read: shorter, less complex code) for plotting in the weather, climate and ocean sciences.</p>
-<p>The easiest way to install Iris and Cartopy is to use the <a href="http://www.continuum.io/blog/conda">conda</a> package installer that comes with Anaconda. Simply search the <a href="https://binstar.org/">Binstar</a> website for an installer that matches your operating system. You'll end up typing something like the following at the command line:</p>
-<pre><code>conda install -c https://conda.binstar.org/scitools cartopy</code></pre>
+<p>The easiest way to install Iris and Cartopy is to use the <a href="http://www.continuum.io/blog/conda">conda</a> package installer that comes with Anaconda. Simply enter the following at the command line:</p>
+<pre><code>conda install -c scitools iris</code></pre>
 <p>What if you want to view the contents of a netCDF file quickly, rather than go to the effort of producing something that is publication quality? There are numerous tools out there for doing this, including <a href="http://www.giss.nasa.gov/tools/panoply/">Panoply</a> and <a href="http://uvcdat.llnl.gov/">UV-CDAT</a>.</p>
 </div>
 </div>

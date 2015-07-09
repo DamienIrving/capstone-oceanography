@@ -314,7 +314,7 @@ show()
 
 ![Figure: surface current](fig/surface_current.svg)
 
-> ## Plotting option {.callout}
+> ## Plotting options {.callout}
 >
 > Quite a few lines of code were required to create our publication quality figure using [matplotlib](http://matplotlib.org/), 
 > and there would have been even more had we wanted to use the [basemap](http://matplotlib.org/basemap/) library to plot coastlines or change the map projection. 
@@ -324,12 +324,12 @@ show()
 > (read: shorter, less complex code) 
 > for plotting in the weather, climate and ocean sciences.
 >
-> The easiest way to install Iris and Cartopy is to use the [conda](http://www.continuum.io/blog/conda) package installer that comes with Anaconda. 
-> Simply search the [Binstar](https://binstar.org/) website for an installer that matches your operating system. 
-> You'll end up typing something like the following at the command line:  
+> The easiest way to install Iris and Cartopy is to use the
+> [conda](http://www.continuum.io/blog/conda) package installer that comes with Anaconda. 
+> Simply enter the following at the command line:  
 >  
 > ~~~ 
-> conda install -c https://conda.binstar.org/scitools cartopy
+> conda install -c scitools iris
 > ~~~
 >
 > What if you want to view the contents of a netCDF file quickly, 

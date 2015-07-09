@@ -226,13 +226,14 @@ author:
     print &#39;Output file: &#39;, args.outfile  
 
     main(args)</code></pre>
-<div id="conserving-metadata" class="callout panel panel-info">
+<div id="introducing-xray" class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pushpin"></span>Conserving metadata</h2>
+<h2><span class="glyphicon glyphicon-pushpin"></span>Introducing xray</h2>
 </div>
 <div class="panel-body">
-<p>It took four separate functions in <code>calc_current_speed.py</code> to create the output file, because we had to copy the dimensions and most of the global and variable attributes from the original file to the new file. This is such a common problem that a suite of Python libraries known collectively as the <a href="http://www2-pcmdi.llnl.gov/cdat">Climate Data Analysis Tools</a> (CDAT) have been developed, which conserve metadata. When the <code>cdms2</code> CDAT library is used to read a netCDF file, the data are stored as &quot;cdms2 transient variables&quot; (as opposed to numpy arrays). These special variables carry their dimension information and variable atributes with them, and if you perform a mathematical operation on two or more cdms2 transient variables with matching dimensions (such as multiply the zonal and meridional surface current speed), the dimensions and attributes will be transferred to the new variable automatically. With no copying required, the task of writing an output file is typically reduced to only 5-10 lines of code.</p>
-<p>If you'd like to learn more about using the CDAT libraries, see <a href="http://drclimate.wordpress.com/2014/01/02/a-beginners-guide-to-scripting-with-uv-cdat/">this post</a> and the <a href="http://uvcdat.llnl.gov/">UV-CDAT website</a>. Similar to Iris and Cartopy, the easiest way to get access to the CDAT libraries is to install <code>cdat-lite</code> via the conda package installer (<a href="https://binstar.org/search?q=cdat-lite">search the Binstar website for cdat-lite</a>) or the Python package installer (see <a href="https://pypi.python.org/pypi/cdat-lite/6.0rc2">here</a>).</p>
+<p>It took four separate functions in <code>calc_current_speed.py</code> to create the output file, because we had to copy the dimensions and most of the global and variable attributes from the original file to the new file. This is such a common problem that a Python library called <a href="http://xray.readthedocs.org/en/stable/">xray</a> has been developed, which conserves metadata whenever possible. When xray is used to read a netCDF file, the data are stored as an <code>xray.DataArray</code> (as opposed to a <code>numpy.ndarray</code>). These special data arrays carry their dimension information and variable atributes with them, which means you don't have to retrieve them manually. xray also comes with a bunch of convenience functions for doing typical weather/climate/ocean tasks (calculating climatologies, anomalies, etc), which can be a pain using numpy.</p>
+<p>Similar to Iris and Cartopy, the easiest way to install xray is with the conda package installer. Simply type the following at the command line:</p>
+<pre><code>conda install xray dask netCDF4 bottleneck</code></pre>
 </div>
 </div>
 <p>Using the help information that the <code>argparse</code> library provides, we can now go ahead and run this script:</p>
