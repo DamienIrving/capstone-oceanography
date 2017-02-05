@@ -29,7 +29,7 @@
           <h2 class="subtitle">Data Processing</h2>
 <div id="learning-objectives" class="objectives panel panel-warning">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-certificate"></span>Learning Objectives</h2>
+<h2 id="learning-objectives" class="objectives panel panel-warning"><span class="glyphicon glyphicon-certificate"></span>Learning Objectives</h2>
 </div>
 <div class="panel-body">
 <ul>
@@ -46,7 +46,7 @@
 <p>but such a command would produce an incomprehensible mix symbols and letters. The reason is that up until now, we have been dealing with <a href="http://en.wikipedia.org/wiki/Text_file">text files</a>. These consist of a simple sequence of character data (represented using ASCII, Unicode, or some other standard) separated into lines, meaning that text files are human-readable when opened with a text editor or displayed using <code>cat</code>.</p>
 <p>All other file types (including netCDF) are known collectively as <a href="http://en.wikipedia.org/wiki/Binary_file">binary files</a>. They tend to be smaller and faster for the computer to interpret than text files, but the payoff is that they aren't human-readable unless you have the right intpreter (e.g. <code>.doc</code> files aren't readable with your text editor and must instead be opened with Microsoft Word). To view the contents of a netCDF file we'd need to use a special command line utility called <a href="http://www.unidata.ucar.edu/software/netcdf/docs/netcdf/ncdump.html"><code>ncdump</code></a>, which is included with the netCDF C software (i.e. if you're using any software that knows how to deal with netCDF - such as the Anaconda scientific Python distribution used in Software Carpentry workshops - then you probably have <code>ncdump</code> installed without even knowing it).</p>
 <p>For this example, however, we haven't actually downloaded the netCDF file to our machine. Instead, IMOS has made the data available via a THREDDS server, which means we can just pass a URL to the <code>netCDF4.Dataset</code> function in order to obtain the data.</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="dt">print</span> acorn_DATA</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(acorn_DATA)</code></pre></div>
 <pre class="output"><code>&lt;type &#39;netCDF4.Dataset&#39;&gt;
 root group (NETCDF3_CLASSIC data model, file format UNDEFINED):
     project: Integrated Marine Observing System (IMOS)
@@ -139,15 +139,15 @@ root group (NETCDF3_CLASSIC data model, file format UNDEFINED):
     variables(dimensions): float64 LATITUDE(I,J), float64 LONGITUDE(I,J), int8 LATITUDE_quality_control(I,J), int8 LONGITUDE_quality_control(I,J), float64 TIME(TIME), float32 SPEED(TIME,I,J), float32 UCUR(TIME,I,J), float32 VCUR(TIME,I,J), int8 TIME_quality_control(TIME), int8 SPEED_quality_control(TIME,I,J), int8 UCUR_quality_control(TIME,I,J), int8 VCUR_quality_control(TIME,I,J)
     groups:</code></pre>
 <p>The great thing about netCDF files is that they contain metadata - that is, data about the data. There are global attributes that give information about the file as a whole (shown above - we will come back to these later), while each variable also has its own attributes.</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="dt">print</span> <span class="st">&#39;The file contains the following variables:&#39;</span>
-<span class="dt">print</span> acorn_DATA.variables.keys()</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(<span class="st">&#39;The file contains the following variables:&#39;</span>)
+<span class="bu">print</span>(acorn_DATA.variables.keys())</code></pre></div>
 <pre class="output"><code>The file contains the following variables:
 [u&#39;LATITUDE&#39;, u&#39;LONGITUDE&#39;, u&#39;LATITUDE_quality_control&#39;, u&#39;LONGITUDE_quality_control&#39;, u&#39;TIME&#39;, u&#39;SPEED&#39;, u&#39;UCUR&#39;, u&#39;VCUR&#39;, u&#39;TIME_quality_control&#39;, u&#39;SPEED_quality_control&#39;, u&#39;UCUR_quality_control&#39;, u&#39;VCUR_quality_control&#39;]</code></pre>
 <p>(The 'u' means each variable name is represented by a Unicode string.)</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="dt">print</span> <span class="st">&#39;These are the attributes of the time axis:&#39;</span>
-<span class="dt">print</span> acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>]
-<span class="dt">print</span> <span class="st">&#39;These are some of the time values:&#39;</span>
-<span class="dt">print</span> acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>][<span class="dv">0</span>:<span class="dv">10</span>]</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(<span class="st">&#39;These are the attributes of the time axis:&#39;</span>)
+<span class="bu">print</span>(acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>])
+<span class="bu">print</span>(<span class="st">&#39;These are some of the time values:&#39;</span>)
+<span class="bu">print</span>(acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>][<span class="dv">0</span>:<span class="dv">10</span>])</code></pre></div>
 <pre class="output"><code>These are the attributes of the time axis:
 &lt;type &#39;netCDF4.Variable&#39;&gt;
 float64 TIME(TIME)
@@ -169,12 +169,12 @@ These are some of the time values:
 [ 22919.          22919.04166667  22919.08333333  22919.125       22919.16666667
   22919.20833333  22919.25        22919.29166667  22919.33333333  22919.375     ]</code></pre>
 <p>The raw time values are fairly meaningless, but we can use the time attributes to convert them to a more meaningful format...</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> netCDF4 <span class="ch">import</span> num2date
-units = acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>].units
-calendar = acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>].calendar
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> netCDF4 <span class="im">import</span> num2date
+units <span class="op">=</span> acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>].units
+calendar <span class="op">=</span> acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>].calendar
 
-times = num2date(acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>][:], units=units, calendar=calendar)
-<span class="dt">print</span> times[<span class="dv">0</span>:<span class="dv">10</span>]</code></pre>
+times <span class="op">=</span> num2date(acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>][:], units<span class="op">=</span>units, calendar<span class="op">=</span>calendar)
+<span class="bu">print</span>(times[<span class="dv">0</span>:<span class="dv">10</span>])</code></pre></div>
 <pre class="output"><code>[datetime.datetime(2012, 10, 1, 0, 0) datetime.datetime(2012, 10, 1, 1, 0)
  datetime.datetime(2012, 10, 1, 2, 0) datetime.datetime(2012, 10, 1, 3, 0)
  datetime.datetime(2012, 10, 1, 4, 0) datetime.datetime(2012, 10, 1, 5, 0)
@@ -182,81 +182,81 @@ times = num2date(acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>][:]
  datetime.datetime(2012, 10, 1, 8, 0) datetime.datetime(2012, 10, 1, 9, 0)]</code></pre>
 <div id="climate-and-forecast-cf-metadata-convention" class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pushpin"></span>Climate and Forecast (CF) metadata convention</h2>
+<h2 id="climate-and-forecast-cf-metadata-convention" class="callout panel panel-info"><span class="glyphicon glyphicon-pushpin"></span>Climate and Forecast (CF) metadata convention</h2>
 </div>
 <div class="panel-body">
-<p>When performing simple data analysis tasks on netCDF files, command line tools like the Climate Data Operators (<a href="https://code.zmaw.de/projects/cdo">CDO</a>)<br />are often a better alternative to writing your own functions in Python. However, let's put ourselves in the shoes of the developers of CDO for a minute. In order to calculate the time mean of a dataset for a given start and end date (for example), CDO must first identify the units of the time axis. This isn't as easy as you'd think, since the creator of the netCDF file could easily have called the <code>units</code> attribute <code>measure</code>, or <code>scale</code>, or something else completely unpredictable. They could also have defined the units as <code>weeks since 1-01-01 00:00:00</code> or <code>milliseconds after 1979-12-31</code>. Obviously what is needed is a standard method for defining netCDF attributes, and that’s where the <a href="http://cf-pcmdi.llnl.gov/">Climate and Forecast (CF) metadata convention</a> comes in.</p>
+<p>When performing simple data analysis tasks on netCDF files, command line tools like the Climate Data Operators (<a href="https://code.zmaw.de/projects/cdo">CDO</a>)<br />
+are often a better alternative to writing your own functions in Python. However, let's put ourselves in the shoes of the developers of CDO for a minute. In order to calculate the time mean of a dataset for a given start and end date (for example), CDO must first identify the units of the time axis. This isn't as easy as you'd think, since the creator of the netCDF file could easily have called the <code>units</code> attribute <code>measure</code>, or <code>scale</code>, or something else completely unpredictable. They could also have defined the units as <code>weeks since 1-01-01 00:00:00</code> or <code>milliseconds after 1979-12-31</code>. Obviously what is needed is a standard method for defining netCDF attributes, and that’s where the <a href="http://cf-pcmdi.llnl.gov/">Climate and Forecast (CF) metadata convention</a> comes in.</p>
 <p>The CF metadata standard was first defined back in the early 2000s and has now been adopted by all the major institutions and projects in the weather/climate sciences. There's a nice <a href="http://drclimate.wordpress.com/2014/06/09/are-you-cf-compliant/">blog post</a> on the topic if you'd like more information, but for the most part you just need to be aware that if a tool like CDO isn't working, it might be because your netCDF file isn't CF compliant.</p>
 </div>
 </div>
 <h2 id="calculating-the-current-speed">Calculating the current speed</h2>
 <p>For the sake of example, let's say that our data file contained the zonal (east/west; 'UCUR') and meridional (north/south; 'VCUR') surface current components, but not the total current speed. To calculate it, we first need to assign a variable to the zonal and meridional current data.</p>
-<pre class="sourceCode python"><code class="sourceCode python">uData = acorn_DATA.variables[<span class="st">&#39;UCUR&#39;</span>][:,:,:]
-vData = acorn_DATA.variables[<span class="st">&#39;VCUR&#39;</span>][:,:,:]</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">uData <span class="op">=</span> acorn_DATA.variables[<span class="st">&#39;UCUR&#39;</span>][:,:,:]
+vData <span class="op">=</span> acorn_DATA.variables[<span class="st">&#39;VCUR&#39;</span>][:,:,:]</code></pre></div>
 <p>Both <code>uData</code> and <code>vData</code> are a special type of numpy array (which we have met previously) known as a masked array, whereby some of the points in the time/latitude/longitude grid have missing (or masked) values. Just as with a normal numpy array, we can check the shape of our data (in fact, masked arrays can do everything normal numpy arrays can do and more).</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="dt">print</span> <span class="dt">type</span>(uData)
-<span class="dt">print</span> uData.shape</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(<span class="bu">type</span>(uData))
+<span class="bu">print</span>(uData.shape)</code></pre></div>
 <pre class="output"><code>&lt;class &#39;numpy.ma.core.MaskedArray&#39;&gt;
 (493, 55, 57)</code></pre>
 <p>In other words, 493 time steps, 55 latitudes and 57 longitudes. We can now go ahead and calculate the current speed.</p>
-<pre class="sourceCode python"><code class="sourceCode python">spData = (uData**<span class="dv">2</span> + vData**<span class="dv">2</span>)**<span class="fl">0.5</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">spData <span class="op">=</span> (uData<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> vData<span class="op">**</span><span class="dv">2</span>)<span class="op">**</span><span class="fl">0.5</span></code></pre></div>
 <h3 id="viewing-the-result">Viewing the result</h3>
 <p>It's a good idea to regularly view your data throughout the code development process, just to ensure nothing that crazy has happened along the way. Below is a code except from <a href="https://github.com/aodn/imos-user-code-library/blob/master/Python/demos/acorn.py">this example</a> in the AODN user code library, which simply plots one of the 493 timesteps.</p>
-<pre class="sourceCode python"><code class="sourceCode python">%matplotlib inline
-<span class="ch">from</span> matplotlib.pyplot <span class="ch">import</span> figure, pcolor, colorbar, xlabel, ylabel, title, draw, quiver, show, savefig
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">%</span>matplotlib inline
+<span class="im">from</span> matplotlib.pyplot <span class="im">import</span> figure, pcolor, colorbar, xlabel, ylabel, title, draw, quiver, show, savefig
 
-LAT = acorn_DATA.variables[<span class="st">&#39;LATITUDE&#39;</span>]
-LON = acorn_DATA.variables[<span class="st">&#39;LONGITUDE&#39;</span>]
-TIME = acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>]
+LAT <span class="op">=</span> acorn_DATA.variables[<span class="st">&#39;LATITUDE&#39;</span>]
+LON <span class="op">=</span> acorn_DATA.variables[<span class="st">&#39;LONGITUDE&#39;</span>]
+TIME <span class="op">=</span> acorn_DATA.variables[<span class="st">&#39;TIME&#39;</span>]
 
 <span class="co"># Only one time value is being plotted. modify timeIndex if desired (value between 0 and length(timeData)-1 )</span>
-timeIndex = <span class="dv">4</span>
-speedData = spData[timeIndex,:,:]
-latData = LAT[:]
-lonData = LON[:]
+timeIndex <span class="op">=</span> <span class="dv">4</span>
+speedData <span class="op">=</span> spData[timeIndex,:,:]
+latData <span class="op">=</span> LAT[:]
+lonData <span class="op">=</span> LON[:]
 
 <span class="co"># sea water U and V components</span>
-uData = acorn_DATA.variables[<span class="st">&#39;UCUR&#39;</span>][timeIndex,:,:]
-vData = acorn_DATA.variables[<span class="st">&#39;VCUR&#39;</span>][timeIndex,:,:]
-units = acorn_DATA.variables[<span class="st">&#39;UCUR&#39;</span>].units
+uData <span class="op">=</span> acorn_DATA.variables[<span class="st">&#39;UCUR&#39;</span>][timeIndex,:,:]
+vData <span class="op">=</span> acorn_DATA.variables[<span class="st">&#39;VCUR&#39;</span>][timeIndex,:,:]
+units <span class="op">=</span> acorn_DATA.variables[<span class="st">&#39;UCUR&#39;</span>].units
 
-figure1 = figure(figsize=(<span class="dv">13</span>, <span class="dv">10</span>), dpi=<span class="dv">80</span>, facecolor=<span class="st">&#39;w&#39;</span>, edgecolor=<span class="st">&#39;k&#39;</span>)
+figure1 <span class="op">=</span> figure(figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="dv">10</span>), dpi<span class="op">=</span><span class="dv">80</span>, facecolor<span class="op">=</span><span class="st">&#39;w&#39;</span>, edgecolor<span class="op">=</span><span class="st">&#39;k&#39;</span>)
 pcolor(lonData , latData, speedData)
-cbar = colorbar()
-cbar.ax.set_ylabel(<span class="st">&#39;Current speed in &#39;</span> + units)
+cbar <span class="op">=</span> colorbar()
+cbar.ax.set_ylabel(<span class="st">&#39;Current speed in &#39;</span> <span class="op">+</span> units)
 
-title(acorn_DATA.title + <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span> + num2date(TIME[timeIndex], TIME.units, TIME.calendar).strftime(<span class="st">&#39;</span><span class="ot">%d</span><span class="st">/%m/%Y&#39;</span>))
-xlabel(LON.long_name + <span class="st">&#39; in &#39;</span> + LON.units)
-ylabel(LAT.long_name + <span class="st">&#39; in &#39;</span> + LAT.units)
+title(acorn_DATA.title <span class="op">+</span> <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span> <span class="op">+</span> num2date(TIME[timeIndex], TIME.units, TIME.calendar).strftime(<span class="st">&#39;</span><span class="sc">%d</span><span class="st">/%m/%Y&#39;</span>))
+xlabel(LON.long_name <span class="op">+</span> <span class="st">&#39; in &#39;</span> <span class="op">+</span> LON.units)
+ylabel(LAT.long_name <span class="op">+</span> <span class="st">&#39; in &#39;</span> <span class="op">+</span> LAT.units)
 
 <span class="co"># plot velocity field</span>
-Q = quiver(lonData[:], latData[:], uData, vData, units=<span class="st">&#39;width&#39;</span>)
-show()</code></pre>
+Q <span class="op">=</span> quiver(lonData[:], latData[:], uData, vData, units<span class="op">=</span><span class="st">&#39;width&#39;</span>)
+show()</code></pre></div>
 <div class="figure">
-<img src="fig/surface_current.svg" alt="Figure: surface current" /><p class="caption">Figure: surface current</p>
+<img src="fig/surface_current.svg" alt="Figure: surface current" />
+<p class="caption">Figure: surface current</p>
 </div>
 <div id="plotting-options" class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pushpin"></span>Plotting options</h2>
+<h2 id="plotting-options" class="callout panel panel-info"><span class="glyphicon glyphicon-pushpin"></span>Plotting options</h2>
 </div>
 <div class="panel-body">
-<p>Quite a few lines of code were required to create our publication quality figure using <a href="http://matplotlib.org/">matplotlib</a>, and there would have been even more had we wanted to use the <a href="http://matplotlib.org/basemap/">basemap</a> library to plot coastlines or change the map projection. Recognising this burden, the team at the UK Met Office have developed <a href="http://scitools.org.uk/iris/">Iris</a> and <a href="http://scitools.org.uk/cartopy/">Cartopy</a>, which build on matplotlib and basemap to provide a more convenient interface (read: shorter, less complex code) for plotting in the weather, climate and ocean sciences.</p>
-<p>The easiest way to install Iris and Cartopy is to use the <a href="http://www.continuum.io/blog/conda">conda</a> package installer that comes with Anaconda. Simply enter the following at the command line:</p>
-<pre><code>conda install -c scitools iris</code></pre>
+<p>Quite a few lines of code were required to create our publication quality figure using <a href="http://matplotlib.org/">matplotlib</a>. Recognising this burden, the <a href="http://scitools.org.uk/iris/">Iris</a> and <a href="http://xarray.pydata.org/en/stable/index.html">xarray</a> libraries have been written specifically for analysing and plotting weather/climate/ocean data (read: shorter, less complex code). Both these libraries link easily with <a href="http://scitools.org.uk/cartopy/">Cartopy</a>, which offers a range of different map projections and the option of plotting coastlines.</p>
 <p>What if you want to view the contents of a netCDF file quickly, rather than go to the effort of producing something that is publication quality? There are numerous tools out there for doing this, including <a href="http://www.giss.nasa.gov/tools/panoply/">Panoply</a> and <a href="http://uvcdat.llnl.gov/">UV-CDAT</a>.</p>
 </div>
 </div>
 <div id="vectorisation" class="challenge panel panel-success">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pencil"></span>Vectorisation</h2>
+<h2 id="vectorisation" class="challenge panel panel-success"><span class="glyphicon glyphicon-pencil"></span>Vectorisation</h2>
 </div>
 <div class="panel-body">
 <p>Let's say (hypothetically) that the TURQ site radar has been found to be unreliable for surface current speeds greater than 0.9 m/s. To correct for this problem, the IMOS documentation suggests setting all values greater than 0.9 m/s, back to 0.9 m/s. The most obvious solution to this problem would be to loop through every element in <code>spData</code> and check its value:</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">for</span> t in <span class="dt">range</span>(<span class="dv">0</span>, <span class="dt">len</span>(TIME[:])):
-    <span class="kw">for</span> y in <span class="dt">range</span>(<span class="dv">0</span>, <span class="dt">len</span>(LAT[:])):
-        <span class="kw">for</span> x in <span class="dt">range</span>(<span class="dv">0</span>, <span class="dt">len</span>(LON[:])):
-            <span class="kw">if</span> spData[t, y, x] &gt; <span class="fl">0.9</span>:
-                spData[t, y, x] = <span class="fl">0.9</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(TIME[:])):
+    <span class="cf">for</span> y <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(LAT[:])):
+        <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(LON[:])):
+            <span class="cf">if</span> spData[t, y, x] <span class="op">&gt;</span> <span class="fl">0.9</span>:
+                spData[t, y, x] <span class="op">=</span> <span class="fl">0.9</span></code></pre></div>
 <p>The problem is that not only is this nested loop kind of ugly, it's also pretty slow. If our data array was even larger (e.g. like the huge data arrays that high resolution global climate models produce), then it would probably be prohibitively slow. The reason is that <em>high level</em> languages like Python and Matlab are built for usability (i.e. they make it easy to write concise, readable code), not speed. To get around this problem, people have written Python libraries (like <code>numpy</code>) in <em>low level</em> languages like C and Fortran, which are built for speed (but definitely not usability). Fortunately we don't ever need to see the C code under the hood of the <code>numpy</code> library, but we should use it to <a href="http://en.wikipedia.org/wiki/Array_programming">vectorise</a> our array operations whenever possible.</p>
 <p>With this in mind:</p>
 <ul>

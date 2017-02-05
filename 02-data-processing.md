@@ -46,7 +46,7 @@ Instead, IMOS has made the data available via a THREDDS server,
 which means we can just pass a URL to the `netCDF4.Dataset` function in order to obtain the data.
 
 ~~~ {.python}
-print acorn_DATA
+print(acorn_DATA)
 ~~~
 
 ~~~ {.output}
@@ -151,8 +151,8 @@ There are global attributes that give information about the file as a whole
 while each variable also has its own attributes.
 
 ~~~ {.python}
-print 'The file contains the following variables:'
-print acorn_DATA.variables.keys()
+print('The file contains the following variables:')
+print(acorn_DATA.variables.keys())
 ~~~
 
 ~~~ {.output}
@@ -163,10 +163,10 @@ The file contains the following variables:
 (The 'u' means each variable name is represented by a Unicode string.)
 
 ~~~ {.python}
-print 'These are the attributes of the time axis:'
-print acorn_DATA.variables['TIME']
-print 'These are some of the time values:'
-print acorn_DATA.variables['TIME'][0:10]
+print('These are the attributes of the time axis:')
+print(acorn_DATA.variables['TIME'])
+print('These are some of the time values:')
+print(acorn_DATA.variables['TIME'][0:10])
 ~~~
 
 ~~~ {.output}
@@ -201,7 +201,7 @@ units = acorn_DATA.variables['TIME'].units
 calendar = acorn_DATA.variables['TIME'].calendar
 
 times = num2date(acorn_DATA.variables['TIME'][:], units=units, calendar=calendar)
-print times[0:10]
+print(times[0:10])
 ~~~
 
 ~~~ {.output}
@@ -254,8 +254,8 @@ we can check the shape of our data
 (in fact, masked arrays can do everything normal numpy arrays can do and more).
 
 ~~~ {.python}
-print type(uData)
-print uData.shape
+print(type(uData))
+print(uData.shape)
 ~~~
 
 ~~~ {.output}
@@ -316,21 +316,13 @@ show()
 
 > ## Plotting options {.callout}
 >
-> Quite a few lines of code were required to create our publication quality figure using [matplotlib](http://matplotlib.org/), 
-> and there would have been even more had we wanted to use the [basemap](http://matplotlib.org/basemap/) library to plot coastlines or change the map projection. 
+> Quite a few lines of code were required to create our publication quality figure using [matplotlib](http://matplotlib.org/). 
 > Recognising this burden, 
-> the team at the UK Met Office have developed [Iris](http://scitools.org.uk/iris/) and [Cartopy](http://scitools.org.uk/cartopy/), 
-> which build on matplotlib and basemap to provide a more convenient interface 
-> (read: shorter, less complex code) 
-> for plotting in the weather, climate and ocean sciences.
->
-> The easiest way to install Iris and Cartopy is to use the
-> [conda](http://www.continuum.io/blog/conda) package installer that comes with Anaconda. 
-> Simply enter the following at the command line:  
->  
-> ~~~ 
-> conda install -c scitools iris
-> ~~~
+> the [Iris](http://scitools.org.uk/iris/) and [xarray](http://xarray.pydata.org/en/stable/index.html) libraries 
+> have been written specifically for analysing and plotting weather/climate/ocean data
+> (read: shorter, less complex code).
+> Both these libraries link easily with [Cartopy](http://scitools.org.uk/cartopy/), 
+> which offers a range of different map projections and the option of plotting coastlines.
 >
 > What if you want to view the contents of a netCDF file quickly, 
 > rather than go to the effort of producing something that is publication quality?
