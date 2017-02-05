@@ -2,6 +2,7 @@ import os, sys, argparse
 import datetime
 from git import Repo
 from netCDF4 import Dataset
+import pdb
 
 
 def calc_speed(u, v):
@@ -14,8 +15,8 @@ def calc_speed(u, v):
 
 def copy_dimensions(infile, outfile):
     """Copy the dimensions of the infile to the outfile"""
-        
-    for dimName, dimData in infile.dimensions.iteritems():
+    
+    for dimName, dimData in iter(infile.dimensions.items()):
         outfile.createDimension(dimName, len(dimData))
 
 
@@ -134,8 +135,8 @@ author:
 
     args = parser.parse_args()            
 
-    print 'Input file: ', args.infile
-    print 'Output file: ', args.outfile  
+    print('Input file: ', args.infile)
+    print('Output file: ', args.outfile)  
 
     main(args)
 
