@@ -2,7 +2,6 @@ import os, sys, argparse
 import datetime
 from git import Repo
 from netCDF4 import Dataset
-import pdb
 
 
 def calc_speed(u, v):
