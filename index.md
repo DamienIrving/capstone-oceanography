@@ -33,7 +33,13 @@ Along the way, we will learn:
 >
 > The following additional Python libraries must also be installed to complete the lesson:  
 >
-> * `pip install gitpython`
+> GitPython:  
+> `pip install gitpython`  
+>
+> netCDF4:  
+> `conda config --add channels conda-forge`  
+> `conda install netcdf4`  
+> 
 
 ## Topics
 
