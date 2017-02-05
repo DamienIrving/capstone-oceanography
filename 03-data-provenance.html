@@ -29,7 +29,7 @@
           <h2 class="subtitle">Data Provenance</h2>
 <div id="learning-objectives" class="objectives panel panel-warning">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-certificate"></span>Learning Objectives</h2>
+<h2 id="learning-objectives" class="objectives panel panel-warning"><span class="glyphicon glyphicon-certificate"></span>Learning Objectives</h2>
 </div>
 <div class="panel-body">
 <ul>
@@ -40,7 +40,7 @@
 </div>
 <p>Now that we've developed some code for reading in zonal and meridional surface current data and calculating the speed, the logical next step is to put that code in a script called <code>calc_current_speed.py</code> so that we can repeat the process quickly and easily.</p>
 <p>The output of that script will be a new netCDF file containing the current speed data, however there's one more thing to consider before we go ahead and start creating new files. Looking closely at the global attributes of <code>IMOS_ACORN_V_20121001T000000Z_TURQ_FV00_monthly-1-hour-avg_END-20121029T180000Z_C-20121030T160000Z.nc</code> you can see that the entire history of the file, all the way back to its initial download, has been recorded in the <code>history</code> attribute.</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="dt">print</span> acorn_DATA.history</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">print</span>(acorn_DATA.history)</code></pre></div>
 <pre class="output"><code>2012-10-09T03:31:35 Convert totl_TURQ_2012_10_08_1500.tuv to netcdf format using CODAR_Convert_File.
 2012-10-09T03:31:36 Write CODAR file totl_TURQ_2012_10_08_1500.tuv. Modification of the NetCDF format by eMII to visualise the data using ncWMS</code></pre>
 <p>This practice of recording the history of the file ensures the <a href="http://en.wikipedia.org/wiki/Provenance">provenance</a> of the data. In other words, a complete record of everything that has been done to the data is stored with the data, which avoids any confusion in the event that the data is ever moved, passed around to different users, or viewed by its creator many months later.</p>
@@ -52,37 +52,37 @@
 </ul>
 <h3 id="time-stamp">Time stamp</h3>
 <p>A library called <code>datetime</code> can be used to find out the time and date right now:</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">import</span> datetime
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> datetime
  
-time_stamp = datetime.datetime.now().strftime(<span class="st">&quot;%Y-%m-</span><span class="ot">%d</span><span class="st">T%H:%M:%S&quot;</span>)
-<span class="dt">print</span> time_stamp</code></pre>
+time_stamp <span class="op">=</span> datetime.datetime.now().strftime(<span class="st">&quot;%Y-%m-</span><span class="sc">%d</span><span class="st">T%H:%M:%S&quot;</span>)
+<span class="bu">print</span>(time_stamp)</code></pre></div>
 <pre class="output"><code>2015-02-17T20:26:25</code></pre>
 <p>The <code>strftime</code> function can be used to customise the appearance of a datetime object; in this case we've made it look just like the other time stamps in our data file.</p>
 <h3 id="command-line-record">Command line record</h3>
-<p>In the <a href="http://www.software-carpentry.org/v5/novice/python/06-cmdline.html">lesson on command line programs</a> we met <code>sys.argv</code>, which contains all the arguments entered by the user at the command line:</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">import</span> sys
-<span class="dt">print</span> sys.argv</code></pre>
-<pre class="output"><code>[&#39;-c&#39;, &#39;-f&#39;, &#39;/opt/ipython/profile_default/security/kernel-349ad03b-2b0e-46ef-98b0-39af6d92db4e.json&#39;, &quot;--IPKernelApp.parent_appname=&#39;ipython-notebook&#39;&quot;, &#39;--profile-dir&#39;, &#39;/opt/ipython/profile_default&#39;, &#39;--parent=1&#39;]</code></pre>
+<p>In the <a href="http://swcarpentry.github.io/python-novice-inflammation/10-cmdline/">lesson on command line programs</a> we met <code>sys.argv</code>, which contains all the arguments entered by the user at the command line:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> sys
+<span class="bu">print</span>(sys.argv)</code></pre></div>
+<pre class="output"><code>[&#39;/Applications/anaconda/envs/default/lib/python3.5/site-packages/ipykernel/__main__.py&#39;, &#39;-f&#39;, &#39;/Users/irv033/Library/Jupyter/runtime/kernel-c5b2a29d-9991-412c-83a1-2e69528034a0.json&#39;]</code></pre>
 <p>In launching this IPython notebook, you can see that a number of command line arguments were used. To join all these list elements up, we can use the <code>join</code> function that belongs to Python strings:</p>
-<pre class="sourceCode python"><code class="sourceCode python">args = <span class="st">&quot; &quot;</span>.join(sys.argv)
-<span class="dt">print</span> args</code></pre>
-<pre class="output"><code>-c -f /opt/ipython/profile_default/security/kernel-349ad03b-2b0e-46ef-98b0-39af6d92db4e.json --IPKernelApp.parent_appname=&#39;ipython-notebook&#39; --profile-dir /opt/ipython/profile_default --parent=1</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">args <span class="op">=</span> <span class="st">&quot; &quot;</span>.join(sys.argv)
+<span class="bu">print</span>(args)</code></pre></div>
+<pre class="output"><code>/Applications/anaconda/envs/default/lib/python3.5/site-packages/ipykernel/__main__.py -f /Users/irv033/Library/Jupyter/runtime/kernel-c5b2a29d-9991-412c-83a1-2e69528034a0.json</code></pre>
 <p>While this list of arguments is very useful, it doesn't tell us which Python installation was used to execute those arguments. The <code>sys</code> library can help us out here too:</p>
-<pre class="sourceCode python"><code class="sourceCode python">exe = sys.executable
-<span class="dt">print</span> exe</code></pre>
-<pre class="output"><code>/opt/python/bin/python</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">exe <span class="op">=</span> sys.executable
+<span class="bu">print</span>(exe)</code></pre></div>
+<pre class="output"><code>/Applications/anaconda/envs/default/bin/python</code></pre>
 <h3 id="git-hash">Git hash</h3>
 <p>In the Software Carpentry lessons on git we learned that each commit is associated with a unique 40-character identifier known as a hash. We can use the git Python library to get the hash associated with the script:</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> git <span class="ch">import</span> Repo
-<span class="ch">import</span> os
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> git <span class="im">import</span> Repo
+<span class="im">import</span> os
 
-git_hash = Repo(os.getcwd()).heads[<span class="dv">0</span>].commit
-<span class="dt">print</span> git_hash</code></pre>
-<pre class="output"><code>765320b051cc5f9947f899637a2f38a8de3bcc3c</code></pre>
+git_hash <span class="op">=</span> Repo(os.getcwd()).heads[<span class="dv">0</span>].commit
+<span class="bu">print</span>(git_hash)</code></pre></div>
+<pre class="output"><code>bec6077a7d8e6d5b0b9370ca9cca6a071ed62b32</code></pre>
 <p>We can now put all this information together for our history entry:</p>
-<pre class="sourceCode python"><code class="sourceCode python">entry = <span class="st">&quot;&quot;&quot;</span><span class="ot">%s</span><span class="st">: </span><span class="ot">%s</span><span class="st"> </span><span class="ot">%s</span><span class="st"> (Git hash: </span><span class="ot">%s</span><span class="st">)&quot;&quot;&quot;</span> %(time_stamp, exe, args, <span class="dt">str</span>(git_hash)[<span class="dv">0</span>:<span class="dv">7</span>])
-<span class="dt">print</span> entry</code></pre>
-<pre class="output"><code>2015-02-17T20:26:25: /opt/python/bin/python -c -f /opt/ipython/profile_default/security/kernel-349ad03b-2b0e-46ef-98b0-39af6d92db4e.json --IPKernelApp.parent_appname=&#39;ipython-notebook&#39; --profile-dir /opt/ipython/profile_default --parent=1 (Git hash: 765320b)</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">entry <span class="op">=</span> <span class="st">&quot;&quot;&quot;</span><span class="sc">%s</span><span class="st">: </span><span class="sc">%s</span><span class="st"> </span><span class="sc">%s</span><span class="st"> (Git hash: </span><span class="sc">%s</span><span class="st">)&quot;&quot;&quot;</span> <span class="op">%</span>(time_stamp, exe, args, <span class="bu">str</span>(git_hash)[<span class="dv">0</span>:<span class="dv">7</span>])
+<span class="bu">print</span>(entry)</code></pre></div>
+<pre class="output"><code>2017-02-05T18:00:53: /Applications/anaconda/envs/default/bin/python /Applications/anaconda/envs/default/lib/python3.5/site-packages/ipykernel/__main__.py -f /Users/irv033/Library/Jupyter/runtime/kernel-c5b2a29d-9991-412c-83a1-2e69528034a0.json (Git hash: bec6077)</code></pre>
 <h2 id="putting-it-all-together">Putting it all together</h2>
 <p>So far we've been experimenting in the IPython notebook to familiarise ourselves with <code>netCDF4</code> and the other Python libraries that might be useful for calculating the surface current speed. We should now go ahead and write a script, so we can repeat the process with a single entry at the command line:</p>
 <pre class="input"><code>$ cat code/calc_current_speed.py</code></pre>
@@ -103,7 +103,7 @@ def calc_speed(u, v):
 def copy_dimensions(infile, outfile):
     &quot;&quot;&quot;Copy the dimensions of the infile to the outfile&quot;&quot;&quot;
         
-    for dimName, dimData in infile.dimensions.iteritems():
+    for dimName, dimData in iter(infile.dimensions.items()):
         outfile.createDimension(dimName, len(dimData))
 
 
@@ -226,14 +226,12 @@ author:
     print &#39;Output file: &#39;, args.outfile  
 
     main(args)</code></pre>
-<div id="introducing-xray" class="callout panel panel-info">
+<div id="conserving-metadata" class="callout panel panel-info">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pushpin"></span>Introducing xray</h2>
+<h2 id="conserving-metadata" class="callout panel panel-info"><span class="glyphicon glyphicon-pushpin"></span>Conserving metadata</h2>
 </div>
 <div class="panel-body">
-<p>It took four separate functions in <code>calc_current_speed.py</code> to create the output file, because we had to copy the dimensions and most of the global and variable attributes from the original file to the new file. This is such a common problem that a Python library called <a href="http://xray.readthedocs.org/en/stable/">xray</a> has been developed, which conserves metadata whenever possible. When xray is used to read a netCDF file, the data are stored as an <code>xray.DataArray</code> (as opposed to a <code>numpy.ndarray</code>). These special data arrays carry their dimension information and variable atributes with them, which means you don't have to retrieve them manually. xray also comes with a bunch of convenience functions for doing typical weather/climate/ocean tasks (calculating climatologies, anomalies, etc), which can be a pain using numpy.</p>
-<p>Similar to Iris and Cartopy, the easiest way to install xray is with the conda package installer. Simply type the following at the command line:</p>
-<pre><code>conda install xray dask netCDF4 bottleneck</code></pre>
+<p>It took four separate functions in <code>calc_current_speed.py</code> to create the output file, because we had to copy the dimensions and most of the global and variable attributes from the original file to the new file. This is such a common problem that both the <a href="http://scitools.org.uk/iris/">Iris</a> and <a href="http://xarray.pydata.org/en/stable/index.html">xarray</a> libraries conserve metadata whenever possible. When xarray is used to read a netCDF file, for instance, the data are stored as an <code>xarray.DataArray</code> (as opposed to a <code>numpy.ndarray</code>). These special data arrays carry their dimension information and variable atributes with them, which means you don't have to retrieve them manually. Iris and xarray also come with a bunch of convenience functions for doing typical weather/climate/ocean tasks (calculating climatologies, anomalies, etc), which can be a pain using numpy.</p>
 </div>
 </div>
 <p>Using the help information that the <code>argparse</code> library provides, we can now go ahead and run this script:</p>
@@ -270,33 +268,33 @@ dimensions:
 variables:
     double TIME(TIME) ;
         TIME:_FillValue = -9999. ;
+        TIME:calendar = &quot;gregorian&quot; ;
         TIME:comment = &quot;Given time lays at the middle of the averaging time period.&quot; ;
-        TIME:valid_min = 0. ;
         TIME:long_name = &quot;time&quot; ;
+        TIME:axis = &quot;T&quot; ;
+        TIME:units = &quot;days since 1950-01-01 00:00:00&quot; ;
         TIME:standard_name = &quot;time&quot; ;
         TIME:local_time_zone = 8. ;
-        TIME:units = &quot;days since 1950-01-01 00:00:00&quot; ;
-        TIME:calendar = &quot;gregorian&quot; ;
+        TIME:valid_min = 0. ;
         TIME:valid_max = 999999. ;
-        TIME:axis = &quot;T&quot; ;
     double LATITUDE(I, J) ;
         LATITUDE:_FillValue = 9999. ;
-        LATITUDE:valid_min = -90. ;
-        LATITUDE:reference_datum = &quot;geographical coordinates, WGS84 projection&quot; ;
         LATITUDE:long_name = &quot;latitude&quot; ;
-        LATITUDE:standard_name = &quot;latitude&quot; ;
-        LATITUDE:units = &quot;degrees_north&quot; ;
-        LATITUDE:valid_max = 90. ;
         LATITUDE:axis = &quot;Y&quot; ;
+        LATITUDE:units = &quot;degrees_north&quot; ;
+        LATITUDE:reference_datum = &quot;geographical coordinates, WGS84 projection&quot; ;
+        LATITUDE:standard_name = &quot;latitude&quot; ;
+        LATITUDE:valid_min = -90. ;
+        LATITUDE:valid_max = 90. ;
     double LONGITUDE(I, J) ;
         LONGITUDE:_FillValue = 9999. ;
-        LONGITUDE:valid_min = -180. ;
-        LONGITUDE:reference_datum = &quot;geographical coordinates, WGS84 projection&quot; ;
         LONGITUDE:long_name = &quot;longitude&quot; ;
-        LONGITUDE:standard_name = &quot;longitude&quot; ;
-        LONGITUDE:units = &quot;degrees_east&quot; ;
-        LONGITUDE:valid_max = 180. ;
         LONGITUDE:axis = &quot;X&quot; ;
+        LONGITUDE:units = &quot;degrees_east&quot; ;
+        LONGITUDE:reference_datum = &quot;geographical coordinates, WGS84 projection&quot; ;
+        LONGITUDE:standard_name = &quot;longitude&quot; ;
+        LONGITUDE:valid_min = -180. ;
+        LONGITUDE:valid_max = 180. ;
     float SPCUR(TIME, I, J) ;
         SPCUR:_FillValue = 9999.f ;
         SPCUR:standard_name = &quot;sea_water_speed&quot; ;
@@ -305,57 +303,57 @@ variables:
         SPCUR:coordinates = &quot;TIME LATITUDE LONGITUDE&quot; ;
 
 // global attributes:
-        :comment = &quot;These data have not been quality controlled. They represent values calculated using software provided by CODAR Ocean Sensors. The file has been modified by eMII in order to visualise the data using the ncWMS software.This NetCDF file has been created using the IMOS NetCDF User Manual v1.2. A copy of the document is available at http://imos.org.au/facility_manuals.html&quot; ;
-        :distribution_statement = &quot;Data may be re-used, provided that related metadata explaining the data has been reviewed by the user, and the data is appropriately acknowledged. Data, products and services from IMOS are provided \&quot;as is\&quot; without any warranty as to fitness for a particular purpose.&quot; ;
-        :geospatial_vertical_max = 0. ;
-        :featureType = &quot;grid&quot; ;
-        :abstract = &quot;These data have not been quality controlled. The ACORN facility is producing NetCDF files with radials data for each station every ten minutes.  Radials represent the surface sea water state component  along the radial direction from the receiver antenna  and are calculated from the shift of an area under  the bragg peaks in a Beam Power Spectrum.  The radial values have been calculated using software provided  by the manufacturer of the instrument. eMII is using a Matlab program to read all the netcdf files with radial data for two different stations  and produce a one hour average product with U and V components of the current. The final product is produced on a regular geographic (latitude longitude) grid More information on the data processing is available through the IMOS MEST  http://imosmest.aodn.org.au/geonetwork/srv/en/main.home. This file is an aggregation over a month of distinct hourly averaged files.&quot; ;
-        :citation = &quot;Citation to be used in publications should follow the format:\&quot;IMOS.[year-of-data-download],[Title],[Data access URL],accessed [date-of-access]\&quot;&quot; ;
-        :geospatial_lat_units = &quot;degrees_north&quot; ;
-        :geospatial_lon_units = &quot;degrees_east&quot; ;
-        :data_center = &quot;eMarine Information Infrastructure (eMII)&quot; ;
         :keywords = &quot;Oceans&quot; ;
-        :id = &quot;IMOS/ACORN/au/TURQ/2012-10-08T15:00:00Z.sea_state&quot; ;
-        :naming_authority = &quot;Integrated Marine Observing System (IMOS)&quot; ;
-        :institution_references = &quot;http://www.imos.org.au/acorn.html&quot; ;
-        :geospatial_lat_max = -29.5252994, -29.5794147, -29.6335296, -29.687644, -29.741758, -29.7958715, -29.8499845, -29.904097, -29.9582091, -30.0123207, -30.0664318, -30.1205425, -30.1746527, -30.2287624, -30.2828717, -30.3369805, -30.3910888, -30.4451966, -30.499304, -30.5534109, -30.6075173, -30.6616232, -30.7157287, -30.7698337, -30.8239382, -30.8780423, -30.9321458, -30.9862489, -31.0403515, -31.0944536, -31.1485553, -31.2026564, -31.2567571, -31.3108573, -31.364957, -31.4190563, -31.473155, -31.5272533, -31.5813511, -31.6354484, -31.6895452, -31.7436416, -31.7977374, -31.8518328, -31.9059277, -31.960022, -32.0141159, -32.0682094, -32.1223023, -32.1763947, -32.2304867, -32.2845781, -32.3386691, -32.3927596, -32.4468495 ;
-        :acknowledgment = &quot;Data was sourced from the Integrated Marine Observing System (IMOS) - IMOS is supported by the Australian Government through the National Collaborative Research Infrastructure Strategy (NCRIS) and the Super Science Initiative (SSI).&quot; ;
-        :title = &quot;IMOS ACORN Turquoise Coast site (WA) (TURQ), monthly aggregation of one hour averaged current data&quot; ;
-        :author_email = &quot;laurent.besnard@utas.edu.au&quot; ;
-        :netcdf_version = &quot;3.6&quot; ;
-        :site_code = &quot;TURQ, Turqoise Coast&quot; ;
-        :file_version = &quot;Level 0 - Raw data&quot; ;
-        :instrument = &quot;CODAR Ocean Sensors/SeaSonde&quot; ;
-        :file_version_quality_control = &quot;Data in this file has not been quality controlled&quot; ;
-        :acknowledgement = &quot;Data was sourced from Integrated Marine Observing System (IMOS) - an initiative of the Australian Government being conducted as part of the National Calloborative Research Infrastructure Strategy.&quot; ;
-        :time_coverage_duration = &quot;PT1H19M&quot; ;
-        :local_time_zone = 8. ;
         :geospatial_lat_min = -29.5386582, -29.5927878, -29.6469169, -29.7010456, -29.7551738, -29.8093016, -29.863429, -29.9175559, -29.9716823, -30.0258084, -30.0799339, -30.1340591, -30.1881837, -30.242308, -30.2964318, -30.3505551, -30.404678, -30.4588004, -30.5129224, -30.5670439, -30.621165, -30.6752857, -30.7294059, -30.7835256, -30.8376449, -30.8917637, -30.9458821, -31., -31.0541175, -31.1082345, -31.162351, -31.2164671, -31.2705828, -31.324698, -31.3788127, -31.432927, -31.4870408, -31.5411542, -31.5952671, -31.6493795, -31.7034915, -31.7576031, -31.8117141, -31.8658247, -31.9199349, -31.9740446, -32.0281538, -32.0822625, -32.1363708, -32.1904787, -32.244586, -32.2986929, -32.3527994, -32.4069054, -32.4610109 ;
-        :time_coverage_start = &quot;2012-10-01T00:00:00Z&quot; ;
-        :geospatial_vertical_min = 0. ;
-        :time_coverage_end = &quot;2012-10-29T18:00:00Z&quot; ;
-        :data_center_email = &quot;info@emii.org.au&quot; ;
-        :institution = &quot;Australian Coastal Ocean Radar Network (ACORN)&quot; ;
-        :geospatial_lon_max = 115.7758038, 115.7766744, 115.7775469, 115.7784212, 115.7792975, 115.7801756, 115.7810557, 115.7819376, 115.7828215, 115.7837073, 115.784595, 115.7854846, 115.7863762, 115.7872697, 115.7881651, 115.7890625, 115.7899618, 115.7908631, 115.7917663, 115.7926715, 115.7935787, 115.7944878, 115.7953989, 115.796312, 115.7972271, 115.7981441, 115.7990632, 115.7999843, 115.8009074, 115.8018325, 115.8027596, 115.8036887, 115.8046199, 115.8055531, 115.8064883, 115.8074256, 115.8083649, 115.8093063, 115.8102497, 115.8111952, 115.8121427, 115.8130924, 115.8140441, 115.8149979, 115.8159538, 115.8169118, 115.8178719, 115.8188341, 115.8197984, 115.8207648, 115.8217334, 115.822704, 115.8236768, 115.8246518, 115.8256289 ;
+        :abstract = &quot;These data have not been quality controlled. The ACORN facility is producing NetCDF files with radials data for each station every ten minutes.  Radials represent the surface sea water state component  along the radial direction from the receiver antenna  and are calculated from the shift of an area under  the bragg peaks in a Beam Power Spectrum.  The radial values have been calculated using software provided  by the manufacturer of the instrument. eMII is using a Matlab program to read all the netcdf files with radial data for two different stations  and produce a one hour average product with U and V components of the current. The final product is produced on a regular geographic (latitude longitude) grid More information on the data processing is available through the IMOS MEST  http://imosmest.aodn.org.au/geonetwork/srv/en/main.home. This file is an aggregation over a month of distinct hourly averaged files.&quot; ;
         :geospatial_lon_min = 112.3100111, 112.3090067, 112.3080002, 112.3069914, 112.3059805, 112.3049674, 112.3039521, 112.3029346, 112.3019149, 112.3008929, 112.2998688, 112.2988424, 112.2978139, 112.2967831, 112.29575, 112.2947147, 112.2936772, 112.2926374, 112.2915953, 112.290551, 112.2895044, 112.2884556, 112.2874044, 112.286351, 112.2852953, 112.2842373, 112.283177, 112.2821143, 112.2810494, 112.2799821, 112.2789125, 112.2778406, 112.2767663, 112.2756897, 112.2746108, 112.2735294, 112.2724458, 112.2713597, 112.2702713, 112.2691805, 112.2680873, 112.2669917, 112.2658937, 112.2647933, 112.2636905, 112.2625853, 112.2614777, 112.2603676, 112.2592551, 112.2581402, 112.2570228, 112.2559029, 112.2547806, 112.2536558, 112.2525286 ;
-        :data_centre_email = &quot;info@emii.org.au&quot; ;
-        :date_modified = &quot;2012-10-30T16:31:50Z&quot; ;
-        :principal_investigator = &quot;Wyatt, Lucy&quot; ;
-        :data_centre = &quot;eMarine Information Infrastructure (eMII)&quot; ;
-        :author = &quot;Besnard, Laurent&quot; ;
-        :Conventions = &quot;IMOS version 1.3&quot; ;
-        :project = &quot;Integrated Marine Observing System (IMOS)&quot; ;
-        :quality_control_set = &quot;1&quot; ;
+        :geospatial_vertical_max = 0. ;
+        :geospatial_lon_units = &quot;degrees_east&quot; ;
+        :title = &quot;IMOS ACORN Turquoise Coast site (WA) (TURQ), monthly aggregation of one hour averaged current data&quot; ;
         :source = &quot;Terrestrial HF radar&quot; ;
-        :ssr_Stations = &quot;SeaBird (SBRD), Cervantes (CRVT)&quot; ;
-        :date_created = &quot;2012-10-30T16:31:50Z&quot; ;
+        :citation = &quot;Citation to be used in publications should follow the format:\&quot;IMOS.[year-of-data-download],[Title],[Data access URL],accessed [date-of-access]\&quot;&quot; ;
+        :id = &quot;IMOS/ACORN/au/TURQ/2012-10-08T15:00:00Z.sea_state&quot; ;
+        :acknowledgement = &quot;Data was sourced from Integrated Marine Observing System (IMOS) - an initiative of the Australian Government being conducted as part of the National Calloborative Research Infrastructure Strategy.&quot; ;
+        :geospatial_lat_units = &quot;degrees_north&quot; ;
+        :institution = &quot;Australian Coastal Ocean Radar Network (ACORN)&quot; ;
+        :acknowledgment = &quot;Data was sourced from the Integrated Marine Observing System (IMOS) - IMOS is supported by the Australian Government through the National Collaborative Research Infrastructure Strategy (NCRIS) and the Super Science Initiative (SSI).&quot; ;
+        :file_version_quality_control = &quot;Data in this file has not been quality controlled&quot; ;
+        :project = &quot;Integrated Marine Observing System (IMOS)&quot; ;
+        :author_email = &quot;laurent.besnard@utas.edu.au&quot; ;
+        :date_modified = &quot;2012-10-30T16:31:50Z&quot; ;
+        :time_coverage_start = &quot;2012-10-01T00:00:00Z&quot; ;
+        :institution_references = &quot;http://www.imos.org.au/acorn.html&quot; ;
+        :geospatial_lon_max = 115.7758038, 115.7766744, 115.7775469, 115.7784212, 115.7792975, 115.7801756, 115.7810557, 115.7819376, 115.7828215, 115.7837073, 115.784595, 115.7854846, 115.7863762, 115.7872697, 115.7881651, 115.7890625, 115.7899618, 115.7908631, 115.7917663, 115.7926715, 115.7935787, 115.7944878, 115.7953989, 115.796312, 115.7972271, 115.7981441, 115.7990632, 115.7999843, 115.8009074, 115.8018325, 115.8027596, 115.8036887, 115.8046199, 115.8055531, 115.8064883, 115.8074256, 115.8083649, 115.8093063, 115.8102497, 115.8111952, 115.8121427, 115.8130924, 115.8140441, 115.8149979, 115.8159538, 115.8169118, 115.8178719, 115.8188341, 115.8197984, 115.8207648, 115.8217334, 115.822704, 115.8236768, 115.8246518, 115.8256289 ;
+        :Conventions = &quot;IMOS version 1.3&quot; ;
         :geospatial_vertical_units = &quot;m&quot; ;
-        :history = &quot;2015-02-17T20:26:35: /opt/python/bin/python calc_current_speed.py http://thredds.aodn.org.au/thredds/dodsC/IMOS/eMII/demos/ACORN/monthly_gridded_1h-avg-current-map_non-QC/TURQ/2012/IMOS_ACORN_V_20121001T000000Z_TURQ_FV00_monthly-1-hour-avg_END-20121029T180000Z_C-20121030T160000Z.nc.gz UCUR VCUR IMOS_ACORN_SPCUR_20121001T000000Z_TURQ_monthly-1-hour-avg_END-20121029T180000Z.nc (Git hash: 765320b)\n2012-10-09T03:31:35 Convert totl_TURQ_2012_10_08_1500.tuv to netcdf format using CODAR_Convert_File.\n2012-10-09T03:31:36 Write CODAR file totl_TURQ_2012_10_08_1500.tuv. Modification of the NetCDF format by eMII to visualise the data using ncWMS&quot; ;
+        :principal_investigator = &quot;Wyatt, Lucy&quot; ;
+        :ssr_Stations = &quot;SeaBird (SBRD), Cervantes (CRVT)&quot; ;
+        :geospatial_lat_max = -29.5252994, -29.5794147, -29.6335296, -29.687644, -29.741758, -29.7958715, -29.8499845, -29.904097, -29.9582091, -30.0123207, -30.0664318, -30.1205425, -30.1746527, -30.2287624, -30.2828717, -30.3369805, -30.3910888, -30.4451966, -30.499304, -30.5534109, -30.6075173, -30.6616232, -30.7157287, -30.7698337, -30.8239382, -30.8780423, -30.9321458, -30.9862489, -31.0403515, -31.0944536, -31.1485553, -31.2026564, -31.2567571, -31.3108573, -31.364957, -31.4190563, -31.473155, -31.5272533, -31.5813511, -31.6354484, -31.6895452, -31.7436416, -31.7977374, -31.8518328, -31.9059277, -31.960022, -32.0141159, -32.0682094, -32.1223023, -32.1763947, -32.2304867, -32.2845781, -32.3386691, -32.3927596, -32.4468495 ;
+        :netcdf_version = &quot;3.6&quot; ;
+        :naming_authority = &quot;Integrated Marine Observing System (IMOS)&quot; ;
+        :data_centre_email = &quot;info@emii.org.au&quot; ;
+        :quality_control_set = &quot;1&quot; ;
+        :data_centre = &quot;eMarine Information Infrastructure (eMII)&quot; ;
+        :comment = &quot;These data have not been quality controlled. They represent values calculated using software provided by CODAR Ocean Sensors. The file has been modified by eMII in order to visualise the data using the ncWMS software.This NetCDF file has been created using the IMOS NetCDF User Manual v1.2. A copy of the document is available at http://imos.org.au/facility_manuals.html&quot; ;
+        :featureType = &quot;grid&quot; ;
+        string :history = &quot;2017-02-05T18:12:00: /Applications/anaconda/bin/python code/calc_current_speed.py http://thredds.aodn.org.au/thredds/dodsC/IMOS/eMII/demos/ACORN/monthly_gridded_1h-avg-current-map_non-QC/TURQ/2012/IMOS_ACORN_V_20121001T000000Z_TURQ_FV00_monthly-1-hour-avg_END-20121029T180000Z_C-20121030T160000Z.nc.gz UCUR VCUR IMOS_ACORN_SPCUR_20121001T000000Z_TURQ_monthly-1-hour-avg_END-20121029T180000Z.nc (Git hash: bec6077)\n2012-10-09T03:31:35 Convert totl_TURQ_2012_10_08_1500.tuv to netcdf format using CODAR_Convert_File.\n2012-10-09T03:31:36 Write CODAR file totl_TURQ_2012_10_08_1500.tuv. Modification of the NetCDF format by eMII to visualise the data using ncWMS �\n\t\006 %&quot; ;
+        :data_center_email = &quot;info@emii.org.au&quot; ;
+        :geospatial_vertical_min = 0. ;
+        :local_time_zone = 8. ;
+        :date_created = &quot;2012-10-30T16:31:50Z&quot; ;
+        :file_version = &quot;Level 0 - Raw data&quot; ;
+        :data_center = &quot;eMarine Information Infrastructure (eMII)&quot; ;
+        :instrument = &quot;CODAR Ocean Sensors/SeaSonde&quot; ;
+        :site_code = &quot;TURQ, Turqoise Coast&quot; ;
+        :distribution_statement = &quot;Data may be re-used, provided that related metadata explaining the data has been reviewed by the user, and the data is appropriately acknowledged. Data, products and services from IMOS are provided \&quot;as is\&quot; without any warranty as to fitness for a particular purpose.&quot; ;
+        :author = &quot;Besnard, Laurent&quot; ;
+        :time_coverage_duration = &quot;PT1H19M&quot; ;
+        :time_coverage_end = &quot;2012-10-29T18:00:00Z&quot; ;
 }</code></pre>
 <p>There are a lot of global and variable attributes in our output file, because we copied everything from the input file. It might be tempting to edit <code>calc_current_speed.py</code> or use the <code>ncatted</code> command line utility (which, like <code>ncdump</code>, comes with the <a href="http://nco.sourceforge.net/">NCO</a> install) to start cleaning up (i.e. delete) some of these attributes, but we should resist that urge. The <code>id</code> global attribute, for instance, makes little sense to anyone who doesn't work at IMOS. While this might seem like a reasonable argument for deleting that attribute, once an attribute is deleted it's gone forever. The <code>id</code> attribute is taking up a negligible amount of memory, so why not just leave it there just in case? When in doubt, keep metadata.</p>
 <div id="a-provenance-plan" class="challenge panel panel-success">
 <div class="panel-heading">
-<h2><span class="glyphicon glyphicon-pencil"></span>A provenance plan</h2>
+<h2 id="a-provenance-plan" class="challenge panel panel-success"><span class="glyphicon glyphicon-pencil"></span>A provenance plan</h2>
 </div>
 <div class="panel-body">
 <p>Does your data management plan from the first challenge adequately address this issue of data provenance? If not, go ahead and add to your plan now. Things to consider include:</p>
